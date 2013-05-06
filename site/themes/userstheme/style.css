@@ -1,0 +1,13 @@
+/** Här kan du göra egna tillägg till Grogs stylesheet. Denna filen har prioritet över Grogs, vilket innebär att om
+* en inställning finns på båda ställena är det den du gör här som gäller.
+* Som du ser nedanför pekar @import på en .php istället för en .css och det är för att Grogs stylesheet kompileras
+* med lessphp som i sin tur genererar en .css och en .cache av densamma. 
+* Om du vill ha full kontroll över din helt egna stylesheet kan du ta bort eller kommentera ut import-länken och
+* göra dina inställningar här. Kod på olika ställen i ramverket har dock kopplats till specifika regioner i layouten
+* med kod från semantic.gs. Om du föredrar att arbeta i Grogs egen style.less behöver du göra mappen skrivbar med chmod 777 
+* för att .cache-filen ska kunna skrivas och uppdateras. Det rekommenderas helt enkelt att du gör dina ändringar här. */
+
+
+@import url(../../../themes/grogstyle/style.php);
+
+/* Här skriver du din egen önskade CSS kod */ 

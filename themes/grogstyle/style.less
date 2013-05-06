@@ -1,0 +1,287 @@
+/** Grogs standardlayout. Baserat på less, lessphp och semantic.gs */
+
+/** --------------------------------------------------------------
+* Reset för eventuella konfliktande inställningar för style.
+* -------------------------------------------------------------- */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary,
+time, mark, audio, video {margin:0; padding:0; border:0; font-size:100.01%; font:inherit; vertical-align:baseline;}
+body{line-height:1;}
+ol, ul {list-style:none;}
+blockquote, q {quotes:none;}
+blockquote:before, blockquote:after, q:before, q:after {content:''; content:none;}
+table {border-collapse:collapse; border-spacing:0;}
+
+
+/** --------------------------------------------------------------
+* Reset för HTML5 element.
+* -------------------------------------------------------------- */
+article, aside, details, figcaption, figure, footer, header, hgroup, nav, section {display:block;}
+audio, canvas, video {display:inline-block; *display:inline; *zoom:1;}
+audio:not([controls]) {display:none;}
+[hidden] {display:none;}
+
+
+/** --------------------------------------------------------------
+* semantic.gs
+* -------------------------------------------------------------- */
+/* Standardinställningar för kolumner. Fritt fram att ändra. */
+@column-width:60;
+@gutter-width:20;
+@columns:15;
+
+/* Variabel för hur gridet beräknas. Denna ska inte behöva ändras */
+@gridsystem-width: (@column-width*@columns) + (@gutter-width*@columns) * 1px;
+@total-width: @gridsystem-width;
+
+/* Wrap elements to site width in grid layout*/
+.wrap() {width:@total-width; margin:0 auto; .clearfix();}
+.alwaysShowScrollbar() {overflow:-moz-scrollbars-vertical; overflow-y:scroll;}
+
+.clearfix() {*zoom:1; 
+&:before,
+&:after {content:""; display:table;}
+&:after {clear:both;}}
+
+.row(@columns:@columns) {display:block;
+width:@total-width*((@gutter-width + @gridsystem-width)/@gridsystem-width);
+margin:0 @total-width*(((@gutter-width*.5)/@gridsystem-width)*-1);
+.clearfix;}
+
+.column(@x,@columns:@columns) {display:inline; float:left; 
+width:@total-width*((((@gutter-width+@column-width)*@x)-@gutter-width) / @gridsystem-width);
+margin:0 @total-width*((@gutter-width*.5)/@gridsystem-width);}
+
+.push(@offset:1) {margin-left:@total-width*(((@gutter-width+@column-width)*@offset) / @gridsystem-width) + @total-width*((@gutter-width*.5)/@gridsystem-width);}
+.pull(@offset:1) {margin-right:@total-width*(((@gutter-width+@column-width)*@offset) / @gridsystem-width) + @total-width*((@gutter-width*.5)/@gridsystem-width);}
+
+
+/** --------------------------------------------------------------
+* Magic Number	
+* -------------------------------------------------------------- */
+/* Base font standard är 16px i alla browsers. Utgångsvärde 100%.
+Bestäm vad du vill ha för standard radavstånd. Default är 1.375 men kan ändras enligt önskemål.
+Font size multiplicerat med radavstånd = ditt magic number. Kommer användas som bas för att avgöra alla relativa förhållanden (d.v.s. enhet 'em') 
+16 x 1.375 = 22. Om man vill ha alternativt stylesheet för synskadade föreslås t.ex. base font 20 och radavstånd 1.5 = magic number 30 */
+
+@magic-number: 22px;			
+
+
+/** --------------------------------------------------------------
+* Fonts	
+* -------------------------------------------------------------- */
+@import url(http://fonts.googleapis.com/css?family=Dosis);
+@import url(http://fonts.googleapis.com/css?family=Ubuntu);
+
+@font-family-Dosis = Dosis;
+@font-family-Ubuntu = Ubuntu;
+
+
+/** --------------------------------------------------------------
+* Färger 	
+* -------------------------------------------------------------- */
+@bgcolor1:#FFFBE1; 		/* blek gul */
+@bgcolor2:#D7E3FE;		/* blek blågrå */
+@bgtest:hsla(0,0%,90%,0.5);
+
+@header-color:#016379;		/* mörk blågrå */
+@link-color:#016379;		/* mörk blågrå */
+@color:#185563;			/* annan nyans blågrå */
+
+@red-text: #8a1f11;
+@yellow-text: #514721;
+@green-text: #264409;
+@blue-text: #205791
+
+/** --------------------------------------------------------------
+* HTML & Body
+* -------------------------------------------------------------- */
+html {background-color:@bgcolor1; .alwaysShowScrollbar()}
+
+body {width:@gridsystem-width; 
+.clearfix;
+background-color:@bgcolor2;
+color:@color;
+font:100.01%/1.375 @font-family-Ubuntu;
+/* &:hover{background:#fff url(grid_12_60_20.png) repeat-y center top;} */ 
+margin: 2em auto 2em auto;	/* top, right, bottom, left */
+padding:0;
+}
+
+
+/** --------------------------------------------------------------
+* Innehållsformat
+* -------------------------------------------------------------- */
+/** ----- Rubriker ----- */
+/* Valt radavstånd multiplicerat med fontsize. Närmaste hela övre relation av magic-number dividerat med resultatet = line-height
+T.ex. radavstånd 2.375 x 16 = 38. Magic number är 22 och relationen blir 44 som då delas med 38. Line-height ska då vara 1.1579 */  
+
+.headings-general() {font-weight:normal; color:@header-color; margin-bottom:@magic-number; font-family:@font-family-Dosis;}
+h1 {.headings-general(); font-size:2.375em; line-height:1.1579; border-bottom:1px solid darken(@bgcolor1, 15%); margin-bottom:@magic-number - 1px;}
+h2 {.headings-general(); font-size:1.875em; line-height:1.4667;}
+h3 {.headings-general(); font-size:1.375em; line-height:1;}
+h4 {.headings-general(); font-size:1.25em; line-height:1.1;}
+h5 {.headings-general(); font-size:1em; font-weight:bold;}
+h6 {.headings-general(); font-size:1em; font-weight:bold; margin-bottom:0;}
+h1 img,h2 img,h3 img,h4 img,h5 img,h6 img {margin:0;}
+
+/** ----- Text ----- */
+p {margin-bottom:1.375em;}
+a {color:@link-color; text-decoration:underline;
+  &:focus, &:hover {color:lighten(@link-color, 10%); text-decoration:none;}}
+blockquote {margin-left:1em; margin-bottom:1.375em;}
+strong, dfn {font-weight:bold;}
+em, dfn {font-style:italic;}
+pre {margin-bottom:1.375em; white-space:pre;}
+pre, code, tt, .code {font:1em/1.375 @font-family-monospace;}
+
+/** ----- Länkar ----- */
+.hover() {text-decoration:none; color:darken(@link-color, 10%);}
+a {color:@link-color;
+  &:link {}
+  &:visited {}
+  &:hover {.hover()}
+  &:focus {.hover()}
+  &:active {}
+}
+
+/** ----- Listor ----- */
+li ul, li ol {margin:0;}
+ul, ol {margin:0.6875em 1.5em 1.375em 0; padding-left:1.5em;}
+ul {list-style-type:disc;}
+ol {list-style-type:decimal;}
+dl {margin:0 0 1.375em 0;}
+dl dt {font-weight:bold;}
+dd {margin-left:1.5em;}
+
+/** ----- Tabeller ----- */ 
+/* Eftersom TH och TD kräver padding används rytmen 33px istället för 22 och 44 */
+table {margin-bottom:1.375em; width:100%;}
+caption {text-align:left; font-style:italic;}
+thead {border-bottom:2px solid @header-color;}
+th {vertical-align:bottom; font-weight:bold; text-align:left;}
+th, td {padding:5px 10px 5px 5px;}
+tbody tr:nth-child(even) td, tbody tr.even td {}
+tbody tr {border-bottom:1px solid darken(@bgcolor1, 10%);
+  &:hover {color: darken(@header-color, 10%);}}
+tfoot {font-style:italic;}
+
+/** ----- Feedbackrutor ----- */
+.error, .alert, .warning, .notice, .success, .info {padding: 0.8em; margin-bottom: 1em; border: 2px solid @color;}
+.error, .alert {background: lighten(@red-text, 20%); color: @red-text; border-color: lighten(@red-text, 10%);}
+.notice, .warning {background: lighten(@yellow-text, 20%); color: @yellow-text; border-color: lighten(@yellow-text, 10%);}
+.success {background: lighten(@green-text, 20%); color: @green-text; border-color: lighten(@green-text, 10%);}
+.info {background: lighten(@blue-text, 20%); color: @blue-text; border-color: lighten(@blue-text, 10%);}
+.error a, .alert a {color: @red-text;}
+.notice a, .warning a {color: @yellow-text;}
+.success a {color: @green-text;}
+.info a {color: @blue-text;}
+
+/** ----- Diverse ----- */
+.smaller-text {font-size:smaller;}
+.silent {opacity: 0.5;}
+
+hr {background: darken(@bgcolor1, 15%);
+    border: medium none;
+    clear: both;
+    color: darken(@bgcolor1, 15%);
+    float: none;
+    height: 1px;
+    margin: 0 0 1.45em;
+    width: 100%;}  
+
+
+
+/** --------------------------------------------------------------
+* Formulär
+* -------------------------------------------------------------- */
+input, textarea {font:inherit;}
+input[readonly] {color: lighten(@bgcolor2, 10%);}
+label {font-size:smaller;}
+.validation-failed {border:2px solid red;}
+.validation-message {color:red; font-size:smaller;}
+.form-action-link {font-size:smaller;}
+textarea {width:100%; height:8em;}
+
+.content-edit {input[type=text] {width:30em;}
+  textarea {width:40em; height:15em;}}
+
+
+/** --------------------------------------------------------------
+* GRID-regioner
+* -------------------------------------------------------------- */
+.tablecell() {display:table-cell; vertical-align:middle; text-align:center;}
+
+/** ----- Header ----- */
+#outer-wrap-header {background-color: @bgcolor1;}
+#inner-wrap-header {.wrap(); border: 1px solid; color:@header-color; margin-bottom: 3em;}
+#header {.column(15);}
+
+/** ----- Login menu ----- */
+#login-menu {float:right; font-size:0.95em; 
+img.gravatar {vertical-align:middle;}
+  a {text-decoration:none;}
+  a:hover {text-decoration:underline;}}
+
+/** ----- Banner ----- */
+#banner {display:table; margin-bottom:@magic-number/2; 
+  #site-logo{.tablecell();}
+  #site-title{.tablecell(); font-size:2.5em; padding-left:0.2em; text-shadow: lighten(@header-color, 10%) 2px -2px 2px;
+    a{text-decoration:none;}
+  }
+  #site-slogan {.tablecell(); width: 100%; color: @header-color; font-size:1.5em; padding-left:10px;}
+}
+
+/** ----- Navbar ----- */
+#navbar {
+  ul.menu {list-style-type:none; padding:4px 8px; margin:0;
+    li {padding:0; margin:0; display:inline;
+      a {padding:6px 8px; text-decoration:none; border:2px solid transparent;
+        &:hover {background:lighten(@bgcolor2, 3%); border:2px solid @link-color;}
+        &.selected {background:@bgcolor2; border:2px solid @link-color;}
+      }
+    }
+  }
+}
+
+/** ----- Flash ----- */
+#outer-wrap-flash {}
+#inner-wrap-flash {.wrap(); height:@magic-number*3; margin-bottom:@magic-number;}
+#flash {.column(15); height:100%;}
+
+/** ----- Featured ----- */
+#outer-wrap-featured {}
+#inner-wrap-featured {.wrap(); height:@magic-number*5; margin-bottom:@magic-number;}
+#featured {}
+#featured-first, #featured-middle, #featured-last {.column(4); height:100%;}
+
+/** ----- Main ----- */
+#outer-wrap-main {border: 1px solid; color: @header-color; background-color: @bgcolor1;}
+#inner-wrap-main {.wrap(); margin-bottom:@magic-number;}
+#main {}
+#primary {.column(11);}
+#sidebar {.column(4);
+  .box {padding-top:@magic-number/2; margin-bottom:@magic-number*2.5-4px;
+    h4 {}
+  }
+}
+
+/** ----- Triptych ----- */
+#outer-wrap-triptych {}
+#inner-wrap-triptych {.wrap(); height:@magic-number*5; margin-bottom:@magic-number;}
+#triptych {height:inherit;}
+#triptych-first, #triptych-middle, #triptych-last {.column(4); height:100%;}
+
+/** ----- Footer columns ----- */
+/* #outer-wrap-footer-column {border-top:1px solid #bbb;} */
+#inner-wrap-footer-column {.wrap(); height:@magic-number*5; padding-bottom:@magic-number;}
+#footer {height:inherit;}
+#footer-column-one, #footer-column-two, #footer-column-three, #footer-column-four {.column(3); margin-top:1em; height:100%; background-color:lighten(@bgtest,10%);}
+
+/** ----- Footer ----- */
+#outer-wrap-footer {background-color:@bgcolor1;}
+#inner-wrap-footer {.wrap(); border: 1px solid; color: @header-color; padding-top:@magic-number/2; padding-bottom:@magic-number/4; margin-top: 3em;}
+#footer {.column(15);}
